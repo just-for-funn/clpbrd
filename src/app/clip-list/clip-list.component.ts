@@ -8,8 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class ClipListComponent implements OnInit {
 
   constructor() { }
-
+  public clips: string [] = [];
   ngOnInit() {
+    this.clips = ["test" , "test2" , "test3" , "test4" , "test5"];
   }
 
 }
