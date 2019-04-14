@@ -1,6 +1,5 @@
-<p>
-  clip-list works!
-</p>
-<ng-template ngFor let-item [ngForOf]="clips">
-  <app-clip-list-row [clip]="item"></app-clip-list-row>
-</ng-template>
+<div class="cliplist">
+  <ng-template ngFor let-item [ngForOf]="clips">
+    <app-clip-list-row [clip]="item"></app-clip-list-row>
+  </ng-template>
+</div>
