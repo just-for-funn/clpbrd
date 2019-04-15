@@ -1,9 +1,9 @@
 <div class="clip-list-row">
   <div class="left-content">
-      <input [value]="clip" type="text" class="center">
+      <input #myinput [value]="clip" type="text" class="center">
   </div>
   <div class="right-content">
-      <button>Copy</button>
+      <button (click)="copy()">Copy</button>
   </div>
  
   <!-- <p class="row-left">clip-list-row works! {{clip}}</p> -->
