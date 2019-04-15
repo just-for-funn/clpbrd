@@ -1,24 +1,27 @@
 .clip-list-row {
-    border: 3px solid green;
+    /* border: 3px solid green; */
     position: relative;
     display: flex;
     height: 50px;
+    margin: auto;
+    width: 50%;
 }
 
 .left-content {
-    background: yellow;
+    /* background: yellow; */
     /* width: 640px; */
     position: relative;
 }
 
 .right-content {
-    background: green;
+    /* background: green; */
+    margin-left: 5px;
     display: flex;
 }
 
 .left-content input{
     height: 30px;
-    width: 500px;
+    width: 600px;
     position: relative;
     top: 50%;
     -ms-transform: translateY(-50%);
