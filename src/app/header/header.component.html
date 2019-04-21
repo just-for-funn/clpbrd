@@ -1,3 +1,5 @@
 <div class="header">
-  header works!
+  <span *ngIf="isLogined" class="welcome">Welcome {{name}}</span>
+  <img  *ngIf="isLogined" class="profile" [src]="profile">
+  <button *ngIf="!isLogined" class="login-button" (click)="loginClicked()">Login</button>
 </div>

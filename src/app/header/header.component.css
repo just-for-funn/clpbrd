@@ -1,4 +1,39 @@
 .header{
     background: #273747;
-    height: 45px;
+    height: 75px;
+    padding-right: 10px;
+    display: flex;
+    justify-content:flex-end; 
+}
+
+.profile{
+    height: 80%;
+    border-radius: 50%;
+    margin: auto 0;
+}
+
+.welcome{
+    float: right;
+    color: white;
+    margin: auto 0;
+    padding-right: 10px;
+    height: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.login-button{
+    background-image: url(/assets/autorenew.png);
+    background-color: transparent; /* make the button transparent */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 100% 50%;  /* equivalent to 'top left' */
+    background-size: 24px 24px;
+    cursor: pointer;        /* make the cursor like hovering over an <a> element */
+    height: 40px;           /* make this the size of your image */
+    padding-right: 30px;
+    vertical-align: middle;
+    border: none;
+    margin: auto 0;
+    font-size: 1.5em;
+    color: white;
 }

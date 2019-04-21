@@ -1,0 +1,4 @@
+https://accounts.google.com/o/oauth2/v2/auth?response_type=token&redirect_uri=https%3A%2F%2Flocalhost%3A4200&client_id=90057650760-ldp1ef1a9mkhedqeotgsfa4o32jocsit.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.file%20https://www.googleapis.com/auth/userinfo.profile
+
+
+https://localhost:4200/#access_token=ya29.GlvuBvWFYBkSsmcujMBW-A_ASV0-o3uyghgka_qWreOijWMows5eDQNjBODwLZZgZF_XNBSSLPnwKnutB97JiQ3H6X7KtTNATbLUmrUQCDio2EJNniFApWvWIbkR&token_type=Bearer&expires_in=3600&scope=https://www.googleapis.com/auth/drive.file
