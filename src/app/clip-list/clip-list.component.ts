@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ClipService } from '../services/clip-service.service';
+import { LocalStorageServiceService } from '../services/local-storage-service.service';
 
 @Component({
   selector: 'app-clip-list',
@@ -7,10 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClipListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private clipService: ClipService , private localStorage: LocalStorageServiceService) { 
+
+
+  }
   public clips: string [] = [];
   ngOnInit() {
     this.clips = ["test" , "test2" , "test3" , "test4" , "test5"];
+    this.clipService.getClips(this.localStorage.getOauthResponse().access_token);
   }
 
 }

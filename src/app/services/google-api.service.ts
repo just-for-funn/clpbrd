@@ -6,7 +6,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class GoogleApiService {
 
-  constructor(private http: HttpClient) { }
+  URL_LIST_FILES = "https://content.googleapis.com/drive/v3/files?q=mimeType%3D%27application%2Fvnd.google-apps.spreadsheet%27";
+
+
+  constructor(private http: HttpClient) 
+  {
+
+  }
 
 
   public getUserInfo(accessToken:string ):Observable<Profile>{
@@ -19,7 +25,30 @@ export class GoogleApiService {
     };
     return this.http.get<Profile>(url);
   }
+
+
+  public getSpreadSheets(access_token:string ):Observable<FileListResponse>{
+    let url = this.URL_LIST_FILES + "&access_token="+access_token;
+    return this.http.get<FileListResponse>(url);
+  }
+
+  public createSpreadSheet(accessToken: string , fileName:string):Observable<any>{
+    throw "Not Implemented";
+  }
+
 }
+
+export interface FileListResponse{
+    kind:string,
+    incompleteSearch: boolean,
+    files: {
+      kind:string,
+      id:string,
+      name:string,
+      mimeType:string
+    }[];
+}
+
 
 
 export interface Profile{
