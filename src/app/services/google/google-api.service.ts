@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { concatMap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -32,24 +33,34 @@ export class GoogleApiService {
     return this.http.get<FileListResponse>(url);
   }
 
-  public createSpreadSheet(accessToken: string , fileName:string):Observable<any>{
+  public createSpreadSheet(accessToken: string , fileName:string):Observable<SpreadSheet>{
     throw "Not Implemented";
   }
 
+  
 }
 
 export interface FileListResponse{
     kind:string,
     incompleteSearch: boolean,
-    files: {
-      kind:string,
-      id:string,
-      name:string,
-      mimeType:string
-    }[];
+    files:GFile [];
+};
+
+export interface GFile{
+  kind:string,
+  id:string,
+  name:string,
+  mimeType:string
+};
+
+export interface SpreadSheet{
+  spreadsheetId: string;
+  properties?:any;
+  sheets?:any;
+  namedRanges?:any;
+  spreadSheetUrl?:any;
+  developerMetadata?:any;
 }
-
-
 
 export interface Profile{
   id:string;
@@ -59,4 +70,4 @@ export interface Profile{
   link:string;
   picture:string;
   locale:string;
-}
+};

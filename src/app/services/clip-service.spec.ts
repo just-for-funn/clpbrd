@@ -1,4 +1,4 @@
-import {GoogleApiService} from './google-api.service';
+import { GoogleApiService } from "./google/google-api.service";
 import {ClipService} from './clip-service.service';
 import {from, Observable} from 'rxjs';
 
@@ -16,11 +16,6 @@ describe('ClipServiceService', () => {
     };
     return from( [response]);
   }
-
-  it('should be run' , () => {
-    expect(true).toBeTruthy();
-  });
-
 
    function newSpreadSheetCreated() {
     let sheet = {
@@ -41,5 +36,11 @@ describe('ClipServiceService', () => {
     expect(googleApiService.createSpreadSheet)
       .toHaveBeenCalledWith("myaccesstoken" , "clipboard-data");
 
+  });
+
+  it('should read contents if file exists' , ()=>{
+    spyOn<GoogleApiService>( googleApiService , "getSpreadSheets" )
+    .and
+    .returnValue( emptyFileResponse());
   });
 });
