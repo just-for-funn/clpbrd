@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
+import { Observable, from, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { concatMap } from 'rxjs/operators';
 @Injectable({
@@ -37,7 +37,17 @@ export class GoogleApiService {
     throw "Not Implemented";
   }
 
-  
+
+  public getSpreadSheetContents(accessToken:string , spreadSheetId:string):Observable<ValueRange>{
+    throw "Not Implemented";
+  }
+
+}
+
+export interface ValueRange{
+    range: string,
+    majorDimension: string,
+    values: Array<Array<string>>;
 }
 
 export interface FileListResponse{
