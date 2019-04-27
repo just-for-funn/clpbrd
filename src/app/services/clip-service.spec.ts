@@ -1,5 +1,5 @@
 import { GoogleApiService, FileListResponse, GFile, ValueRange } from "./google/google-api.service";
-import {ClipService} from './clip-service.service';
+import {ClipService} from './clip-service';
 import {from, Observable, of} from 'rxjs';
 
 describe('ClipServiceService', () => {
@@ -64,7 +64,7 @@ describe('ClipServiceService', () => {
     spyOn<GoogleApiService>(googleApiService, "getSpreadSheets")
       .and
       .returnValue(fileResponse({ id: "123abc", name: "clipboard-data" } as GFile));
-      
+
       clipService.getClips("myaccess_token").subscribe(data =>{
         expect(data[0].rowNumber).toEqual(1);
         expect(data[0].value).toEqual("row 1");

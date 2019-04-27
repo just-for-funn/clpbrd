@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ClipService } from '../services/clip-service.service';
+import { ClipService } from '../services/clip-service';
 import { LocalStorageServiceService } from '../services/local-storage-service.service';
 
 @Component({

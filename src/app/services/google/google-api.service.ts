@@ -34,12 +34,26 @@ export class GoogleApiService {
   }
 
   public createSpreadSheet(accessToken: string , fileName:string):Observable<SpreadSheet>{
-    throw "Not Implemented";
+    let url = `https://sheets.googleapis.com/v4/spreadsheets?access_token=${accessToken}`;
+    let body: SpreadSheet = {
+       properties: {
+          title: fileName
+       },
+       sheets:[
+          {
+              properties:{
+                title: "clpbrd-sheet0"
+              }
+          }
+       ]
+    };
+    return this.http.post<SpreadSheet>(url ,body );
   }
 
 
   public getSpreadSheetContents(accessToken:string , spreadSheetId:string):Observable<ValueRange>{
-    throw "Not Implemented";
+    let url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadSheetId}/values/A1:A9999?access_token=${accessToken}&majorDimension=ROWS&valueRenderOption=UNFORMATTED_VALUE`;
+    return this.http.get<ValueRange>(url);
   }
 
 }
@@ -64,7 +78,7 @@ export interface GFile{
 };
 
 export interface SpreadSheet{
-  spreadsheetId: string;
+  spreadsheetId?: string;
   properties?:any;
   sheets?:any;
   namedRanges?:any;
