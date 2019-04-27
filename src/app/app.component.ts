@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GoogleApiService } from "./services/GoogleApiService";
+import { GoogleApiService } from "./services/google/google-api.service";
 import { LocalStorageServiceService } from './services/local-storage-service.service';
 
 @Component({

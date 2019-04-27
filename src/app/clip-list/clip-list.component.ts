@@ -15,8 +15,11 @@ export class ClipListComponent implements OnInit {
   }
   public clips: string [] = [];
   ngOnInit() {
-    this.clips = ["test" , "test2" , "test3" , "test4" , "test5"];
-    this.clipService.getClips(this.localStorage.getOauthResponse().access_token);
+    //this.clips = ["test" , "test2" , "test3" , "test4" , "test5"];
+    this.clipService.getClips(this.localStorage.getOauthResponse().access_token)
+      .subscribe(rows =>{
+        this.clips = rows.map(row=>row.value);
+      });
   }
 
 }

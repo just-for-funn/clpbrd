@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginService } from '../login/login.service';
 import { LocalStorageServiceService } from '../services/local-storage-service.service';
-import { GoogleApiService } from "../services/GoogleApiService";
+import { GoogleApiService } from "../services/google/google-api.service";
 
 @Component({
   selector: 'app-header',
