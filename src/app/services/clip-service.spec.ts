@@ -8,6 +8,10 @@ describe('ClipServiceService', () => {
   beforeEach(() => {
        googleApiService = new GoogleApiService(undefined);
        clipService = new ClipService(googleApiService);
+
+       spyOn<GoogleApiService>(googleApiService, "getSpreadSheetContents")
+      .and
+      .returnValue(contentResponse("row 1" , "row 2" ,"row 3"));
   });
 
   function emptyFileResponse() {
@@ -46,14 +50,13 @@ describe('ClipServiceService', () => {
       .and
       .returnValue( newSpreadSheetCreated());
 
-    spyOn<GoogleApiService>(googleApiService, "getSpreadSheetContents")
-      .and
-      .returnValue(contentResponse("row 1" , "row 2" ,"row 3"));
+    clipService.getClips("myaccesstoken").subscribe(val =>{
+      expect(googleApiService.createSpreadSheet)
+        .toHaveBeenCalledWith("myaccesstoken" , "clipboard-data");
+      done();
+    });
 
-    clipService.getClips("myaccesstoken").subscribe(val =>done());
-
-    expect(googleApiService.createSpreadSheet)
-      .toHaveBeenCalledWith("myaccesstoken" , "clipboard-data");
+   
 
   });
 
@@ -61,10 +64,7 @@ describe('ClipServiceService', () => {
     spyOn<GoogleApiService>(googleApiService, "getSpreadSheets")
       .and
       .returnValue(fileResponse({ id: "123abc", name: "clipboard-data" } as GFile));
-    spyOn<GoogleApiService>(googleApiService, "getSpreadSheetContents")
-      .and
-      .returnValue(contentResponse("row 1" , "row 2" ,"row 3"));
-    
+      
       clipService.getClips("myaccess_token").subscribe(data =>{
         expect(data[0].rowNumber).toEqual(1);
         expect(data[0].value).toEqual("row 1");
