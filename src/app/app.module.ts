@@ -1,5 +1,3 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +7,12 @@ import { ClipListComponent } from './clip-list/clip-list.component';
 import { ClipListRowComponent } from './clip-list-row/clip-list-row.component';
 import { AfterLoginComponent } from './after-login/after-login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material';
+import { AddNewDialog } from './clip-list/add-new-dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,12 +20,20 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     ClipListComponent,
     ClipListRowComponent,
-    AfterLoginComponent
+    AfterLoginComponent,
+    AddNewDialog
   ],
+  entryComponents:[AddNewDialog],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatFormFieldModule
+  ],
+  exports:[
+    MatDialogModule,
+    MatFormFieldModule
   ],
   providers: [],
   bootstrap: [AppComponent]
