@@ -2,4 +2,22 @@
     /* border: 2px solid; */
     margin: auto;
     max-width: 1280px;
+    padding-top: 20px;
+}
+
+.search-container{
+    width: 50%;
+    margin: auto;
+    margin-bottom: 20px;
+    /* background: green; */
+}
+
+.search-container .sinput{
+    width: 60%;
+}
+
+.search-container button{
+   float: right;
+   height: 50%;
+   transform: translate(0px, 25%);
 }

@@ -11,7 +11,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule } from '@angular/material';
+import { MatFormFieldModule, MatButtonModule, MatInputModule } from '@angular/material';
 import { AddNewDialog } from './clip-list/add-new-dialog';
 @NgModule({
   declarations: [
@@ -29,11 +29,15 @@ import { AddNewDialog } from './clip-list/add-new-dialog';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule
   ],
   exports:[
     MatDialogModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

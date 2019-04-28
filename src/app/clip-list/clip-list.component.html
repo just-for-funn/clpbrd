@@ -1,6 +1,11 @@
 <div class="cliplist">
+  <div class="search-container">
+      <mat-form-field class="sinput">
+          <input matInput type="search" placeholder="Enter to filter">
+      </mat-form-field>
+    <button (click)="openAddDialoag()"  mat-mini-fab color="warn">+</button>
+  </div>
   <ng-template ngFor let-item [ngForOf]="clips">
     <app-clip-list-row [clip]="item"></app-clip-list-row>
   </ng-template>
-  <button (click)="openAddDialoag()">Click to Add</button>
 </div>
