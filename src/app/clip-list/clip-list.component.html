@@ -3,7 +3,7 @@
       <mat-form-field class="sinput">
           <input matInput type="search" placeholder="Enter to filter">
       </mat-form-field>
-    <button (click)="openAddDialoag()"  mat-mini-fab color="warn">+</button>
+    <button (click)="openAddDialoag()"  mat-flat-button color="primary">Add New</button>
   </div>
   <ng-template ngFor let-item [ngForOf]="clips">
     <app-clip-list-row [clip]="item"></app-clip-list-row>
