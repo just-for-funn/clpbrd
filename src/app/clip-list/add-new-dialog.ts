@@ -1,11 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnChanges } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 
 
 export interface DialogData {
-  animal: string;
-  name: string;
+  value: string;
 }
 
 @Component({
@@ -19,5 +18,9 @@ export class AddNewDialog{
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  onOkClick(){
+    this.dialogRef.close(this.data);
   }
 }

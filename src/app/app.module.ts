@@ -13,6 +13,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule, MatButtonModule, MatInputModule } from '@angular/material';
 import { AddNewDialog } from './clip-list/add-new-dialog';
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +32,8 @@ import { AddNewDialog } from './clip-list/add-new-dialog';
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    FormsModule
   ],
   exports:[
     MatDialogModule,

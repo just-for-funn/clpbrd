@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClipService } from '../services/clip-service';
 import { LocalStorageServiceService } from '../services/local-storage-service.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import { AddNewDialog } from './add-new-dialog';
+import { AddNewDialog, DialogData } from './add-new-dialog';
 
 @Component({
   selector: 'app-clip-list',
@@ -27,13 +27,19 @@ export class ClipListComponent implements OnInit {
   openAddDialoag(){
     const dialogRef = this.dialog.open(AddNewDialog, {
       width: '450px',
-      data: {name: "davut", animal: "doggo"}
+      data: { value:""}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      //this.animal = result;
+      if(result)
+      {
+        this.addNewClip(result as DialogData);
+      }
     });
+  }
+
+  addNewClip(arg: DialogData) {
+    console.log("Adding " , arg);  
   }
 
 }

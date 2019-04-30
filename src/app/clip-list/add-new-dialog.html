@@ -1,10 +1,10 @@
 <div mat-dialog-content>
   <p>Enter a new item.</p>
   <mat-form-field style="width:400px">
-    <input matInput>
+    <input matInput [(ngModel)]="data.value">
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button cdkFocusInitial>Ok</button>
+  <button mat-button  (click)="onOkClick()" cdkFocusInitial>Ok</button>
 </div>
