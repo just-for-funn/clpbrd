@@ -26,7 +26,7 @@ export class ClipListComponent implements OnInit {
 
   openAddDialoag(){
     const dialogRef = this.dialog.open(AddNewDialog, {
-      width: '250px',
+      width: '450px',
       data: {name: "davut", animal: "doggo"}
     });
 
