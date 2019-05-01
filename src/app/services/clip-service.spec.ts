@@ -1,6 +1,7 @@
 import { GoogleApiService, FileListResponse, GFile, ValueRange } from "./google/google-api.service";
 import {ClipService} from './clip-service';
 import {from, Observable, of} from 'rxjs';
+import { concatMap } from 'rxjs/operators';
 
 describe('ClipServiceService', () => {
   let googleApiService : GoogleApiService;
@@ -75,5 +76,21 @@ describe('ClipServiceService', () => {
         done();
       });
      
+  });
+
+  it('should load spreadsheetId only for once' , done =>{
+    spyOn<GoogleApiService>(googleApiService, "getSpreadSheets")
+      .and
+      .returnValue(fileResponse({ id: "123abc", name: "clipboard-data" } as GFile));
+    
+    clipService.getSpreadSheet("myaccess-token")
+    .pipe(
+      concatMap(item => clipService.getSpreadSheet("myaccess-token")),
+      concatMap(item => clipService.getSpreadSheet("myaccess-token")),
+      concatMap(item => clipService.getSpreadSheet("myaccess-token"))
+      ).subscribe(val =>{
+        expect(googleApiService.getSpreadSheets).toHaveBeenCalledTimes(1);
+        done();
+      });
   });
 });
