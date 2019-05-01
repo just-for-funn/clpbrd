@@ -31,9 +31,12 @@ describe('ClipServiceService', () => {
 
    function newSpreadSheetCreated() {
     let sheet = {
-      id: "0"
+      spreadsheetId: "0",
+      properties:{
+        title:"test"
+      }
     }
-    return from([sheet]);
+    return of(sheet);
   }
 
   function contentResponse(...rows: string[]): Observable<ValueRange> {
