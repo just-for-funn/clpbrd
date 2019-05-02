@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ClipService } from '../services/clip-service';
+import { ClipService, ClipModel } from '../services/clip-service';
 import { LocalStorageServiceService } from '../services/local-storage-service.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { AddNewDialog, DialogData } from './add-new-dialog';
@@ -16,12 +16,16 @@ export class ClipListComponent implements OnInit {
 
 
   }
-  public clips: string [] = [];
+  public clips: ClipModel [] = [];
   ngOnInit() {
-    this.clipService.getClips(this.localStorage.getOauthResponse().access_token)
+    this.clipService.getClips(this.getAccessToken())
       .subscribe(rows =>{
-        this.clips = rows.map(row=>row.value);
+        this.clips = rows;
       });
+  }
+
+  private getAccessToken(): string {
+    return this.localStorage.getOauthResponse().access_token;
   }
 
   openAddDialoag(){
@@ -39,7 +43,11 @@ export class ClipListComponent implements OnInit {
   }
 
   addNewClip(arg: DialogData) {
-    console.log("Adding " , arg);  
+    let maxRow = this.clips.reduce((a,b)=>a > b.rowNumber ? a : b.rowNumber , 0 );
+    this.clipService.append(arg.value , this.getAccessToken(),maxRow).subscribe(cm=>{
+      this.clips.unshift(cm);
+    });
+    //console.log("Adding " , arg);  
   }
 
 }

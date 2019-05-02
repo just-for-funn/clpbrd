@@ -10,6 +10,21 @@ import { LocalStorageServiceService } from './local-storage-service.service';
   providedIn: 'root'
 })
 export class ClipService {
+
+  append(value: string, accessToken: string , row:number):Observable<ClipModel> {
+     
+    return this.getSpreadSheet(accessToken)
+      .pipe(
+        concatMap(sheet => this.googleApis.appendToSpeadSheet(sheet.id , value , accessToken , row)) , 
+        map(valRange=>{
+          return {
+            value:valRange.values[0][0],
+            rowNumber:row+1
+          };
+        })
+      );
+  }
+ 
  
 
   public SPREAD_SHEET_NAME = "clipboard-data";
@@ -24,7 +39,9 @@ export class ClipService {
     return this.googleApis.getSpreadSheets(access_token)
       .pipe(
           concatMap(file => this.getSpreadSheet(access_token)) ,
-          flatMap(sheet => sheet.id), 
+          map(sheet => {
+            return sheet.id;
+          }), 
           concatMap(id =>this.getSheetContent(id ,access_token)));
   }
 

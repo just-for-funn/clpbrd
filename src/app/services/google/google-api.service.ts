@@ -1,11 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Observable, from, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { concatMap } from 'rxjs/operators';
+import { concatMap, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
 export class GoogleApiService {
+
+  appendToSpeadSheet(spreadsheetId: string, rowValue: string, accessToken: string, row: number): Observable<ValueRange> {
+    let range = `'clpbrd-sheet0'!A${row+1}`;
+    let url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?access_token=${accessToken}`;
+    url+= "&valueInputOption=RAW";
+    url+="&includeValuesInResponse=true"
+    let values:ValueRange = {
+        majorDimension:"ROWS",
+        range:range,
+        values:[[rowValue]]
+    };
+    return this.http.post<UpdatedValueRange>(url ,values).pipe( map(resp=>resp.updates.updatedData));
+  }
 
   URL_LIST_FILES = "https://content.googleapis.com/drive/v3/files?q=mimeType%3D%27application%2Fvnd.google-apps.spreadsheet%27";
 
@@ -95,3 +108,15 @@ export interface Profile{
   picture:string;
   locale:string;
 };
+
+export interface UpdatedValueRange {
+  spreadsheetId: string,
+  updates: {
+    spreadsheetId: string,
+    updatedRange: string,
+    updatedRows: number,
+    updatedColumns: number,
+    updatedCells: number,
+    updatedData: ValueRange,
+  }
+}

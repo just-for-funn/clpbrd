@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { ClipModel } from '../services/clip-service';
 
 @Component({
   selector: 'app-clip-list-row',
@@ -7,7 +8,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 })
 export class ClipListRowComponent implements OnInit {
   @Input()
-  public clip: string;
+  public clip: ClipModel;
   
   @ViewChild('myinput')
   private input:ElementRef;
