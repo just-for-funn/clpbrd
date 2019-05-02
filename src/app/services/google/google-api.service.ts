@@ -9,15 +9,20 @@ export class GoogleApiService {
 
   appendToSpeadSheet(spreadsheetId: string, rowValue: string, accessToken: string, row: number): Observable<ValueRange> {
     let range = `'clpbrd-sheet0'!A${row+1}`;
-    let url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append?access_token=${accessToken}`;
-    url+= "&valueInputOption=RAW";
-    url+="&includeValuesInResponse=true"
+    let url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append`;
     let values:ValueRange = {
         majorDimension:"ROWS",
         range:range,
         values:[[rowValue]]
     };
-    return this.http.post<UpdatedValueRange>(url ,values).pipe( map(resp=>resp.updates.updatedData));
+    let requestOptions = {
+        params:{
+          valueInputOption:"RAW",
+          includeValuesInResponse:"true",
+          access_token:accessToken
+        }
+    };
+    return this.http.post<UpdatedValueRange>(url ,values ,requestOptions).pipe( map(resp=>resp.updates.updatedData));
   }
 
   URL_LIST_FILES = "https://content.googleapis.com/drive/v3/files?q=mimeType%3D%27application%2Fvnd.google-apps.spreadsheet%27";
