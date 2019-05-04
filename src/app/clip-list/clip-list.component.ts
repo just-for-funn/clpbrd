@@ -20,7 +20,7 @@ export class ClipListComponent implements OnInit {
   ngOnInit() {
     this.clipService.getClips(this.getAccessToken())
       .subscribe(rows =>{
-        this.clips = rows;
+        this.clips = rows.sort((a,b)=>b.rowNumber - a.rowNumber);
       });
   }
 
