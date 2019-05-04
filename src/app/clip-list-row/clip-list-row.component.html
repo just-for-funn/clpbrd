@@ -3,9 +3,7 @@
       <input #myinput [value]="clip.value" type="text" class="center">
   </div>
   <div class="right-content">
-      <button (click)="copy()">Copy</button>
+      <app-icon-button class="center-right" imgSrc="/assets/copy_white_24dp.png" (click)="copy()" ></app-icon-button>
+      <app-icon-button class="center-right" imgSrc="/assets/delete_white_24dp.png"></app-icon-button>
   </div>
- 
-  <!-- <p class="row-left">clip-list-row works! {{clip}}</p> -->
- 
 </div>

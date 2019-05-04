@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule, MatButtonModule, MatInputModule } from '@angular/material';
 import { AddNewDialog } from './clip-list/add-new-dialog';
 import { FormsModule } from '@angular/forms';
+import { IconButtonComponent } from './common/icon-button/icon-button.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,8 @@ import { FormsModule } from '@angular/forms';
     ClipListComponent,
     ClipListRowComponent,
     AfterLoginComponent,
-    AddNewDialog
+    AddNewDialog,
+    IconButtonComponent
   ],
   entryComponents:[AddNewDialog],
   imports: [
