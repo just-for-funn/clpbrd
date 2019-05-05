@@ -91,6 +91,18 @@ export class ClipService {
         return this.googleApis.deleteRow(accessToken, rowNumber, spreadSheet.spreadsheetId, spreadSheet.sheets[0].properties.sheetId);
       }) ,map(this.convert));
   }
+
+  updateRow(accessToken:string , rowNumber:number , value:string):Observable<ClipModel>{
+    return this.getSpreadSheet(accessToken)
+    .pipe( concatMap(ss=>this.googleApis.updateRow(accessToken , ss.spreadsheetId , rowNumber , value)),
+            map(resposen => {
+              return {
+                rowNumber:rowNumber,
+                value: resposen.updatedData[0]
+              };
+            })
+    );
+  }
   
 }
 

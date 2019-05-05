@@ -1,6 +1,6 @@
 <div class="clip-list-row">
   <div class="left-content">
-      <input #myinput [value]="clip.value" type="text" class="center">
+      <input #myinput [(ngModel)]="clip.value" type="text" class="center" (keyup)="onEdit()">
   </div>
   <div class="right-content">
       <app-icon-button class="center-right" imgSrc="/assets/copy_white_24dp.png" (click)="copy()" ></app-icon-button>

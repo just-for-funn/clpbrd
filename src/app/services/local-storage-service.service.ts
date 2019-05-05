@@ -25,6 +25,10 @@ export class LocalStorageServiceService {
     }
     return JSON.parse(rawJson);
   }
+
+  public getAccessToken(): string {
+    return this.getOauthResponse().access_token;
+  }
 }
 
 

@@ -18,7 +18,7 @@ export class ClipListComponent implements OnInit {
   }
   public clips: ClipModel [] = [];
   ngOnInit() {
-    this.clipService.getClips(this.getAccessToken())
+    this.clipService.getClips(this.localStorage.getAccessToken())
       .subscribe(result => this.bindData(result));
   }
 
@@ -26,9 +26,7 @@ export class ClipListComponent implements OnInit {
      this.clips = rows.sort((a, b) => b.rowNumber - a.rowNumber);
   }
 
-  private getAccessToken(): string {
-    return this.localStorage.getOauthResponse().access_token;
-  }
+ 
 
   openAddDialoag(){
     const dialogRef = this.dialog.open(AddNewDialog, {
@@ -46,7 +44,7 @@ export class ClipListComponent implements OnInit {
 
   addNewClip(arg: DialogData) {
     let maxRow = this.clips.reduce((a,b)=>a > b.rowNumber ? a : b.rowNumber , 0 );
-    this.clipService.append(arg.value , this.getAccessToken(),maxRow).subscribe(cm=>{
+    this.clipService.append(arg.value , this.localStorage.getAccessToken(),maxRow).subscribe(cm=>{
       this.clips.unshift(cm);
     });
     //console.log("Adding " , arg);  
@@ -54,7 +52,7 @@ export class ClipListComponent implements OnInit {
 
   onDelete(cm:ClipModel){
     console.log("deleting" , cm);
-    this.clipService.deleteRow(this.getAccessToken() , cm.rowNumber)
+    this.clipService.deleteRow(this.localStorage.getAccessToken() , cm.rowNumber)
     .subscribe(response => this.bindData(response));
   }
 

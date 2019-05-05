@@ -105,6 +105,17 @@ export class GoogleApiService {
     return this.http.get<SpreadSheet>(url);
   }
 
+  updateRow(accessToken:string ,spreadsheetId:string , rowNumber:number , value:string  ):Observable<UpdateValuesResponse>{
+    let range = `A:${rowNumber}:A:${rowNumber+1}`;
+    let url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?access_token=${accessToken}`;
+    let body: ValueRange = {
+      range:range,
+      majorDimension:"ROWS",
+      values:[[value]]
+    };
+    return this.http.put<UpdateValuesResponse>(url ,body);
+  }
+
 }
 
 export interface ValueRange{
