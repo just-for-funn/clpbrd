@@ -50,4 +50,8 @@ export class ClipListComponent implements OnInit {
     //console.log("Adding " , arg);  
   }
 
+  onDelete(cm:ClipModel){
+    console.log("deleting" , cm);
+  }
+
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { ClipModel } from '../services/clip-service';
 
 @Component({
@@ -13,6 +13,9 @@ export class ClipListRowComponent implements OnInit {
   @ViewChild('myinput')
   private input:ElementRef;
 
+  @Output()
+  deleteClick: EventEmitter<ClipModel> = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
@@ -22,5 +25,10 @@ export class ClipListRowComponent implements OnInit {
   public copy():void{
     this.input.nativeElement.select();
     document.execCommand("copy");
+  }
+
+  onDeleteClicked(){
+    console.log("sending delete" , this.clip);
+    this.deleteClick.emit(this.clip);
   }
 }

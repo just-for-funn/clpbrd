@@ -6,6 +6,6 @@
     <button (click)="openAddDialoag()"  mat-flat-button color="primary">Add New</button>
   </div>
   <ng-template ngFor let-item [ngForOf]="clips">
-    <app-clip-list-row [clip]="item"></app-clip-list-row>
+    <app-clip-list-row [clip]="item" (deleteClick)="onDelete($event)"></app-clip-list-row>
   </ng-template>
 </div>
