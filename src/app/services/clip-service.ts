@@ -89,13 +89,9 @@ export class ClipService {
     return this.getSpreadSheet(accessToken).pipe(
       concatMap(spreadSheet => {
         return this.googleApis.deleteRow(accessToken, rowNumber, spreadSheet.spreadsheetId, spreadSheet.sheets[0].properties.sheetId);
-      }) ,map(response=>this.convertDeleteResponse(response) ));
+      }) ,map(this.convert));
   }
   
-  convertDeleteResponse(response:BatchUpdateResponse): ClipModel[] {
-    return this.convert(response.responses[0].updatedData);
-  }
-
 }
 
 export interface ClipModel{

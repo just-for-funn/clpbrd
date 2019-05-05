@@ -19,9 +19,11 @@ export class ClipListComponent implements OnInit {
   public clips: ClipModel [] = [];
   ngOnInit() {
     this.clipService.getClips(this.getAccessToken())
-      .subscribe(rows =>{
-        this.clips = rows.sort((a,b)=>b.rowNumber - a.rowNumber);
-      });
+      .subscribe(result => this.bindData(result));
+  }
+
+  private bindData(rows: ClipModel[]):void {
+     this.clips = rows.sort((a, b) => b.rowNumber - a.rowNumber);
   }
 
   private getAccessToken(): string {
@@ -52,6 +54,8 @@ export class ClipListComponent implements OnInit {
 
   onDelete(cm:ClipModel){
     console.log("deleting" , cm);
+    this.clipService.deleteRow(this.getAccessToken() , cm.rowNumber)
+    .subscribe(response => this.bindData(response));
   }
 
 }

@@ -74,16 +74,17 @@ export class GoogleApiService {
     return this.http.get<ValueRange>(url);
   }
 
-  public deleteRow(access_token:string , rowNumber:number , spreadSheetId:string , sheetId:string):Observable<BatchUpdateResponse>{
+  public deleteRow(access_token:string , rowNumber:number , spreadSheetId:string , sheetId:string):Observable<ValueRange>{
     let url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadSheetId}:batchUpdate`;
     let body = {
+      includeSpreadsheetInResponse: false,
       "requests": [
         {
           "deleteDimension": {
             "range": {
               "sheetId": sheetId,
               "dimension": "ROWS",
-              "startIndex": rowNumber,
+              "startIndex": rowNumber-1,
               "endIndex": rowNumber
             }
           }
@@ -92,12 +93,11 @@ export class GoogleApiService {
     }
     let requestOptions = {
       params:{
-        valueInputOption:"RAW",
-        includeValuesInResponse:"true",
         access_token:access_token
       }
   };
-    return this.http.post<BatchUpdateResponse>(url ,body,requestOptions );
+    return this.http.post<BatchUpdateResponse>(url ,body,requestOptions ).
+        pipe(concatMap(arg=>this.getSpreadSheetContents(access_token , spreadSheetId )));
   }
 
   getSpreadSheet(access_token: string, spreadsheetId: string): Observable<SpreadSheet> {
