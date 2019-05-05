@@ -6,7 +6,7 @@ import { concatMap, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class GoogleApiService {
-
+  
   appendToSpeadSheet(spreadsheetId: string, rowValue: string, accessToken: string, row: number): Observable<ValueRange> {
     let range = `'clpbrd-sheet0'!A${row+1}`;
     let url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}:append`;
@@ -74,6 +74,37 @@ export class GoogleApiService {
     return this.http.get<ValueRange>(url);
   }
 
+  public deleteRow(access_token:string , rowNumber:number , spreadSheetId:string , sheetId:string):Observable<BatchUpdateResponse>{
+    let url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadSheetId}:batchUpdate`;
+    let body = {
+      "requests": [
+        {
+          "deleteDimension": {
+            "range": {
+              "sheetId": sheetId,
+              "dimension": "ROWS",
+              "startIndex": rowNumber,
+              "endIndex": rowNumber
+            }
+          }
+        }
+      ],
+    }
+    let requestOptions = {
+      params:{
+        valueInputOption:"RAW",
+        includeValuesInResponse:"true",
+        access_token:access_token
+      }
+  };
+    return this.http.post<BatchUpdateResponse>(url ,body,requestOptions );
+  }
+
+  getSpreadSheet(access_token: string, spreadsheetId: string): Observable<SpreadSheet> {
+    let url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}?access_token=${access_token}`;
+    return this.http.get<SpreadSheet>(url);
+  }
+
 }
 
 export interface ValueRange{
@@ -114,14 +145,27 @@ export interface Profile{
   locale:string;
 };
 
-export interface UpdatedValueRange {
+export interface UpdateValuesResponse{
   spreadsheetId: string,
-  updates: {
-    spreadsheetId: string,
-    updatedRange: string,
-    updatedRows: number,
-    updatedColumns: number,
-    updatedCells: number,
-    updatedData: ValueRange,
-  }
+  updatedRange: string,
+  updatedRows: number,
+  updatedColumns: number,
+  updatedCells: number,
+  updatedData: ValueRange,
+};
+
+export interface UpdatedValueRange {
+  spreadsheetId: string;
+  updates: UpdateValuesResponse;
+};
+
+export interface BatchUpdateResponse{
+  spreadsheetId: string,
+  totalUpdatedRows: number,
+  totalUpdatedColumns: number,
+  totalUpdatedCells: number,
+  totalUpdatedSheets: number,
+  responses:UpdateValuesResponse[]
 }
+
+

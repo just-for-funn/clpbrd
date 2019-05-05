@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {FileListResponse, GFile , GoogleApiService, ValueRange} from './google/google-api.service';
+import {FileListResponse, GFile , GoogleApiService, ValueRange, SpreadSheet} from './google/google-api.service';
 import {from, Observable, pipe, of} from 'rxjs';
 import {concatMap, flatMap, mergeMap, delay, mapTo, map, tap} from 'rxjs/operators';
 import { I18nSelectPipe } from '@angular/common';
@@ -15,7 +15,7 @@ export class ClipService {
      
     return this.getSpreadSheet(accessToken)
       .pipe(
-        concatMap(sheet => this.googleApis.appendToSpeadSheet(sheet.id , value , accessToken , row)) , 
+        concatMap(sheet => this.googleApis.appendToSpeadSheet(sheet.spreadsheetId , value , accessToken , row)) , 
         map(valRange=>{
           return {
             value:valRange.values[0][0],
@@ -28,7 +28,7 @@ export class ClipService {
  
 
   public SPREAD_SHEET_NAME = "clipboard-data";
-  private spreadSheet: GFile = undefined;
+  private spreadSheet: SpreadSheet = undefined;
 
   constructor(private googleApis: GoogleApiService) {
 
@@ -40,7 +40,7 @@ export class ClipService {
       .pipe(
           concatMap(file => this.getSpreadSheet(access_token)) ,
           map(sheet => {
-            return sheet.id;
+            return sheet.spreadsheetId;
           }), 
           concatMap(id =>this.getSheetContent(id ,access_token)));
   }
@@ -59,7 +59,7 @@ export class ClipService {
      })
   }
   
-  getSpreadSheet(access_token: string):Observable<GFile> {
+  getSpreadSheet(access_token: string):Observable<SpreadSheet> {
     if(this.spreadSheet)
       return of(this.spreadSheet);
     return this.googleApis.getSpreadSheets(access_token)
@@ -68,27 +68,20 @@ export class ClipService {
         tap(file => this.saveState(file))
       );
   }
-  saveState(file: GFile): void {
+  saveState(file: SpreadSheet): void {
     this.spreadSheet = Object.assign({} , file);
   }
 
-  getOrCreateSpreadSheet(access_token: string, files: FileListResponse): Observable<GFile> {
+  getOrCreateSpreadSheet(access_token: string, files: FileListResponse): Observable<SpreadSheet> {
     let foundFile = files.files
       .find(f => f.name == this.SPREAD_SHEET_NAME);
 
     if (foundFile) {
-      return of(foundFile);
+      return of(foundFile)
+        .pipe(concatMap(file=>this.googleApis.getSpreadSheet(access_token , file.id)));
     } else {
       return this.googleApis
-        .createSpreadSheet(access_token, this.SPREAD_SHEET_NAME)
-        .pipe(map(spreadSheet => {
-          return {
-            name: spreadSheet.properties.title, 
-            id: spreadSheet.spreadsheetId,
-            kind: "",
-            mimeType: ""
-          };
-        }));
+        .createSpreadSheet(access_token, this.SPREAD_SHEET_NAME);
     }
 
   }
