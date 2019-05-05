@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {FileListResponse, GFile , GoogleApiService, ValueRange, SpreadSheet} from './google/google-api.service';
+import {FileListResponse, GFile , GoogleApiService, ValueRange, SpreadSheet, BatchUpdateResponse} from './google/google-api.service';
 import {from, Observable, pipe, of} from 'rxjs';
 import {concatMap, flatMap, mergeMap, delay, mapTo, map, tap} from 'rxjs/operators';
 import { I18nSelectPipe } from '@angular/common';
@@ -83,7 +83,17 @@ export class ClipService {
       return this.googleApis
         .createSpreadSheet(access_token, this.SPREAD_SHEET_NAME);
     }
+  }
 
+  deleteRow(accessToken:string , rowNumber:number):Observable<ClipModel[]>{
+    return this.getSpreadSheet(accessToken).pipe(
+      concatMap(spreadSheet => {
+        return this.googleApis.deleteRow(accessToken, rowNumber, spreadSheet.spreadsheetId, spreadSheet.sheets[0].properties.sheetId);
+      }) ,map(response=>this.convertDeleteResponse(response) ));
+  }
+  
+  convertDeleteResponse(response:BatchUpdateResponse): ClipModel[] {
+    return this.convert(response.responses[0].updatedData);
   }
 
 }
