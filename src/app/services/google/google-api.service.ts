@@ -106,14 +106,22 @@ export class GoogleApiService {
   }
 
   updateRow(accessToken:string ,spreadsheetId:string , rowNumber:number , value:string  ):Observable<UpdateValuesResponse>{
-    let range = `A:${rowNumber}:A:${rowNumber+1}`;
-    let url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?access_token=${accessToken}`;
+    let range = `A${rowNumber}:A${rowNumber}`;
+    let url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}`;
     let body: ValueRange = {
       range:range,
       majorDimension:"ROWS",
       values:[[value]]
     };
-    return this.http.put<UpdateValuesResponse>(url ,body);
+    let options = {
+      params:{
+        valueInputOption:"RAW",
+        includeValuesInResponse:"true",
+        responseValueRenderOption:"UNFORMATTED_VALUE",
+        access_token:accessToken
+      }
+    };
+    return this.http.put<UpdateValuesResponse>(url ,body , options);
   }
 
 }

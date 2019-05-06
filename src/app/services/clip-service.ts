@@ -98,7 +98,7 @@ export class ClipService {
             map(resposen => {
               return {
                 rowNumber:rowNumber,
-                value: resposen.updatedData[0]
+                value: resposen.updatedData[0][0]
               };
             })
     );
