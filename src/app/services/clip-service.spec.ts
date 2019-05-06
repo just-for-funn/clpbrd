@@ -1,4 +1,4 @@
-import { GoogleApiService, FileListResponse, GFile, ValueRange } from "./google/google-api.service";
+import {GoogleApiService, FileListResponse, GFile, ValueRange, SpreadSheet} from './google/google-api.service';
 import {ClipService} from './clip-service';
 import {from, Observable, of} from 'rxjs';
 import { concatMap } from 'rxjs/operators';
@@ -13,6 +13,10 @@ describe('ClipServiceService', () => {
        spyOn<GoogleApiService>(googleApiService, "getSpreadSheetContents")
       .and
       .returnValue(contentResponse("row 1" , "row 2" ,"row 3"));
+
+    spyOn<GoogleApiService>(googleApiService, "getSpreadSheet")
+      .and
+      .returnValue(anySpreadSheet());
   });
 
   function emptyFileResponse() {
@@ -46,6 +50,13 @@ describe('ClipServiceService', () => {
         values: rows.map(item => [item])
       };
       return of(resp);
+  }
+
+  function anySpreadSheet():Observable<SpreadSheet> {
+    let ss = {
+      spreadsheetId: "0"
+    };
+    return of(ss);
   }
 
   it('should create file if not exists' , done => {
@@ -85,7 +96,7 @@ describe('ClipServiceService', () => {
     spyOn<GoogleApiService>(googleApiService, "getSpreadSheets")
       .and
       .returnValue(fileResponse({ id: "123abc", name: "clipboard-data" } as GFile));
-    
+
     clipService.getSpreadSheet("myaccess-token")
     .pipe(
       concatMap(item => clipService.getSpreadSheet("myaccess-token")),
