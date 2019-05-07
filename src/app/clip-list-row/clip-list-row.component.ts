@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { ClipModel, ClipService } from '../services/clip-service';
 import { LocalStorageServiceService } from '../services/local-storage-service.service';
+import {Subject} from 'rxjs';
+import {concatMap, debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'app-clip-list-row',
@@ -17,9 +19,23 @@ export class ClipListRowComponent implements OnInit {
   @Output()
   deleteClick: EventEmitter<ClipModel> = new EventEmitter();
 
-  constructor(private clipService:ClipService ,private localStorage: LocalStorageServiceService) { }
+
+  private editSubject$ = new Subject<string>();
+  constructor(private clipService:ClipService ,private localStorage: LocalStorageServiceService) {
+
+    this.editSubject$
+      .pipe(
+        debounceTime(1000),
+        concatMap(arg => this.clipService.updateRow(this.localStorage.getAccessToken(), this.clip.rowNumber, arg))
+      ).subscribe(cm => {
+      console.log('updated', cm);
+      this.clip = cm;
+    });
+
+  }
 
   ngOnInit() {
+
   }
 
 
@@ -35,10 +51,6 @@ export class ClipListRowComponent implements OnInit {
 
   onEdit(){
     console.log("model" , this.clip.value);
-    this.clipService.updateRow(this.localStorage.getAccessToken() , this.clip.rowNumber , this.clip.value)
-    .subscribe(cm=>{
-      console.log("updated" , cm);
-      this.clip = cm;
-    });
+    this.editSubject$.next(this.clip.value);
   }
 }
