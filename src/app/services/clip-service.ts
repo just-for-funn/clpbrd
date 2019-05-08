@@ -51,6 +51,10 @@ export class ClipService {
   }
 
   convert(response: ValueRange): ClipModel[] {
+     if(!response)
+      return [];
+     if(!response.values)
+      return [];
      return response.values.map((item,index) => {
         return {
           value:item[0],
