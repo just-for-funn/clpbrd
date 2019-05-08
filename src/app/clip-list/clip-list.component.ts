@@ -12,21 +12,19 @@ import { ClipListViewModel } from './clip-list-view-model';
 })
 export class ClipListComponent implements OnInit {
   model = new ClipListViewModel();
-  
+
   constructor(private clipService: ClipService , 
     private localStorage: LocalStorageServiceService , public dialog: MatDialog) { 
 
 
   }
-  public clips: ClipModel [] = [];
+  
   ngOnInit() {
     this.clipService.getClips(this.localStorage.getAccessToken())
-      .subscribe(result => this.bindData(result));
+      .subscribe(result => this.model.bindData(result));
   }
 
-  private bindData(rows: ClipModel[]):void {
-     this.clips = rows.sort((a, b) => b.rowNumber - a.rowNumber);
-  }
+  
 
  
 
@@ -45,9 +43,9 @@ export class ClipListComponent implements OnInit {
   }
 
   addNewClip(arg: DialogData) {
-    let maxRow = this.clips.reduce((a,b)=>a > b.rowNumber ? a : b.rowNumber , 0 );
+    let maxRow = this.model.getMaxRow();
     this.clipService.append(arg.value , this.localStorage.getAccessToken(),maxRow).subscribe(cm=>{
-      this.clips.unshift(cm);
+      this.model.appendFront(cm);
     });
     //console.log("Adding " , arg);  
   }
@@ -55,7 +53,7 @@ export class ClipListComponent implements OnInit {
   onDelete(cm:ClipModel){
     console.log("deleting" , cm);
     this.clipService.deleteRow(this.localStorage.getAccessToken() , cm.rowNumber)
-    .subscribe(response => this.bindData(response));
+    .subscribe(response => this.model.bindData(response));
   }
 
 }
