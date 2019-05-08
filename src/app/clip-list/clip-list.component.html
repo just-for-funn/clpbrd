@@ -1,7 +1,7 @@
 <div class="cliplist">
   <div class="search-container">
       <mat-form-field class="sinput">
-          <input matInput type="search" placeholder="Enter to filter">
+          <input [(ngModel)]="model.filter" (keyup)="model.onFilterChange()" matInput type="search" placeholder="Enter to filter">
       </mat-form-field>
     <button (click)="openAddDialoag()"  mat-flat-button color="primary">Add New</button>
   </div>

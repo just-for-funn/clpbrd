@@ -3,6 +3,7 @@ import { ClipService, ClipModel } from '../services/clip-service';
 import { LocalStorageServiceService } from '../services/local-storage-service.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { AddNewDialog, DialogData } from './add-new-dialog';
+import { ClipListViewModel } from './clip-list-view-model';
 
 @Component({
   selector: 'app-clip-list',
@@ -10,7 +11,8 @@ import { AddNewDialog, DialogData } from './add-new-dialog';
   styleUrls: ['./clip-list.component.css']
 })
 export class ClipListComponent implements OnInit {
-
+  model = new ClipListViewModel();
+  
   constructor(private clipService: ClipService , 
     private localStorage: LocalStorageServiceService , public dialog: MatDialog) { 
 
