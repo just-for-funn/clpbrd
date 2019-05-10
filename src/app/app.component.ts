@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   }
   
   ngOnInit(){
-      this.getProfiles();
+    setTimeout(()=>this.getProfiles() , 1000);
   }
 
 
