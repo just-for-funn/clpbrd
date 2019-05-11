@@ -11,10 +11,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule, MatButtonModule, MatInputModule } from '@angular/material';
+import { MatFormFieldModule, MatButtonModule, MatInputModule, MatProgressBarModule } from '@angular/material';
 import { AddNewDialog } from './clip-list/add-new-dialog';
 import { FormsModule } from '@angular/forms';
 import { IconButtonComponent } from './common/icon-button/icon-button.component';
+import { ProgressComponent } from './progress/progress.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +25,8 @@ import { IconButtonComponent } from './common/icon-button/icon-button.component'
     ClipListRowComponent,
     AfterLoginComponent,
     AddNewDialog,
-    IconButtonComponent
+    IconButtonComponent,
+    ProgressComponent
   ],
   entryComponents:[AddNewDialog],
   imports: [
@@ -35,7 +37,8 @@ import { IconButtonComponent } from './common/icon-button/icon-button.component'
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatProgressBarModule
   ],
   exports:[
     MatDialogModule,
