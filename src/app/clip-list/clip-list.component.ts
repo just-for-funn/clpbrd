@@ -4,6 +4,7 @@ import { LocalStorageServiceService } from '../services/local-storage-service.se
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { AddNewDialog, DialogData } from './add-new-dialog';
 import { ClipListViewModel } from './clip-list-view-model';
+import { ProgressService } from '../progress/progress.service';
 
 @Component({
   selector: 'app-clip-list',
@@ -14,14 +15,18 @@ export class ClipListComponent implements OnInit {
   model = new ClipListViewModel();
 
   constructor(private clipService: ClipService , 
-    private localStorage: LocalStorageServiceService , public dialog: MatDialog) { 
+    private localStorage: LocalStorageServiceService , public dialog: MatDialog , private progressService:ProgressService) { 
 
 
   }
   
   ngOnInit() {
+    this.progressService.notifyBusy();
     this.clipService.getClips(this.localStorage.getAccessToken())
-      .subscribe(result => this.model.bindData(result));
+      .subscribe(result => {
+        this.model.bindData(result);
+        this.progressService.notifyProgressCompleted();
+      } , error=> this.progressService.notifyProgressCompleted());
   }
 
   
@@ -43,17 +48,23 @@ export class ClipListComponent implements OnInit {
   }
 
   addNewClip(arg: DialogData) {
+    this.progressService.notifyBusy();
     let maxRow = this.model.getMaxRow();
     this.clipService.append(arg.value , this.localStorage.getAccessToken(),maxRow).subscribe(cm=>{
       this.model.appendFront(cm);
-    });
+      this.progressService.notifyProgressCompleted();
+    } , err => this.progressService.notifyProgressCompleted());
     //console.log("Adding " , arg);  
   }
 
   onDelete(cm:ClipModel){
     console.log("deleting" , cm);
+    this.progressService.notifyBusy();
     this.clipService.deleteRow(this.localStorage.getAccessToken() , cm.rowNumber)
-    .subscribe(response => this.model.bindData(response));
+    .subscribe(response =>{
+      this.model.bindData(response);
+      this.progressService.notifyProgressCompleted();
+    } , err => this.progressService.notifyProgressCompleted());
   }
 
 }

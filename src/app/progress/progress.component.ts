@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProgressService } from './progress.service';
 
 @Component({
   selector: 'app-progress',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProgressComponent implements OnInit {
 
-  constructor() { }
+  isBusy:boolean = false;
+  constructor(private progressService:ProgressService) { }
 
   ngOnInit() {
+    this.progressService.progress$.subscribe(isBusy =>{
+      this.isBusy = isBusy;
+    });
   }
 
 }
