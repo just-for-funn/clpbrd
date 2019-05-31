@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  host:"https://clpbrd.azurewebsites.net/"
+  host:"https://clpbrd.azurewebsites.net"
 };
