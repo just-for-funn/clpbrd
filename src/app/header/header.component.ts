@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginService } from '../login/login.service';
 import { LocalStorageServiceService } from '../services/local-storage-service.service';
 import { GoogleApiService } from "../services/google/google-api.service";
+import { ConfigService } from '../services/config.service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,8 @@ export class HeaderComponent implements OnInit , OnDestroy {
   isLogined = false;
   name: string;
   profile: string;
-  constructor(private loginService:LoginService ,private localStorage: LocalStorageServiceService ,private googleApis:GoogleApiService) {
+  constructor(private loginService:LoginService ,private localStorage: LocalStorageServiceService ,
+    private googleApis:GoogleApiService, private configService: ConfigService ) {
     loginService.loginObservable$
     .subscribe(login=>{
        this.reloadProfile();
@@ -41,6 +43,6 @@ export class HeaderComponent implements OnInit , OnDestroy {
   }
   
   public loginClicked():void{
-    window.location.href = "https://accounts.google.com/o/oauth2/v2/auth?response_type=token&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Flogined&client_id=90057650760-ldp1ef1a9mkhedqeotgsfa4o32jocsit.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/drive.file%20https://www.googleapis.com/auth/userinfo.profile";
+    window.location.href = this.configService.getLoginUrl();
   }
 }
