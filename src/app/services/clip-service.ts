@@ -11,7 +11,7 @@ import { LocalStorageServiceService } from './local-storage-service.service';
 })
 export class ClipService {
 
-  append(value: string, accessToken: string , row:number):Observable<ClipModel> {
+  public append(value: string, accessToken: string , row:number):Observable<ClipModel> {
      
     return this.getSpreadSheet(accessToken)
       .pipe(
@@ -45,12 +45,12 @@ export class ClipService {
           concatMap(id =>this.getSheetContent(id ,access_token)));
   }
 
-  getSheetContent(id: string, access_token: string): Observable<ClipModel[]> {
+  private getSheetContent(id: string, access_token: string): Observable<ClipModel[]> {
     return this.googleApis.getSpreadSheetContents(access_token , id )
       .pipe(map(this.convert));
   }
 
-  convert(response: ValueRange): ClipModel[] {
+  private convert(response: ValueRange): ClipModel[] {
      if(!response)
       return [];
      if(!response.values)
@@ -63,7 +63,7 @@ export class ClipService {
      })
   }
   
-  getSpreadSheet(access_token: string):Observable<SpreadSheet> {
+  private getSpreadSheet(access_token: string):Observable<SpreadSheet> {
     if(this.spreadSheet)
       return of(this.spreadSheet);
     return this.googleApis.getSpreadSheets(access_token)
@@ -72,11 +72,11 @@ export class ClipService {
         tap(file => this.saveState(file))
       );
   }
-  saveState(file: SpreadSheet): void {
+  private saveState(file: SpreadSheet): void {
     this.spreadSheet = Object.assign({} , file);
   }
 
-  getOrCreateSpreadSheet(access_token: string, files: FileListResponse): Observable<SpreadSheet> {
+  private getOrCreateSpreadSheet(access_token: string, files: FileListResponse): Observable<SpreadSheet> {
     let foundFile = files.files
       .find(f => f.name == this.SPREAD_SHEET_NAME);
 
@@ -89,14 +89,14 @@ export class ClipService {
     }
   }
 
-  deleteRow(accessToken:string , rowNumber:number):Observable<ClipModel[]>{
+  public deleteRow(accessToken:string , rowNumber:number):Observable<ClipModel[]>{
     return this.getSpreadSheet(accessToken).pipe(
       concatMap(spreadSheet => {
         return this.googleApis.deleteRow(accessToken, rowNumber, spreadSheet.spreadsheetId, spreadSheet.sheets[0].properties.sheetId);
       }) ,map(this.convert));
   }
 
-  updateRow(accessToken:string , rowNumber:number , value:string):Observable<ClipModel>{
+  public updateRow(accessToken:string , rowNumber:number , value:string):Observable<ClipModel>{
     return this.getSpreadSheet(accessToken)
     .pipe( concatMap(ss=>this.googleApis.updateRow(accessToken , ss.spreadsheetId , rowNumber , value)),
             map(resposen => {
