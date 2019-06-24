@@ -63,7 +63,7 @@ export class ClipService {
      })
   }
   
-  private getSpreadSheet(access_token: string):Observable<SpreadSheet> {
+  getSpreadSheet(access_token: string):Observable<SpreadSheet> {
     if(this.spreadSheet)
       return of(this.spreadSheet);
     return this.googleApis.getSpreadSheets(access_token)
