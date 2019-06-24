@@ -21,6 +21,7 @@ describe('exception testin' , ()=>{
 
 
     it('A better approach to test' , ()=>{
-       expect(()=> exceptionThrower.doSmthng()).toThrow("MyCustomException2");
+       expect(()=> exceptionThrower.doSmthng())
+         .toThrow("MyCustomException2");
     });
 });
